@@ -26,7 +26,8 @@ steps:
   args:
   - -c
   - |
-    ls -lah
+    cd org/dev
+    terragrunt validate || exit 
 # terragrunt validate
 - name: eu.gcr.io/$PROJECT_ID/terraform
   args:
