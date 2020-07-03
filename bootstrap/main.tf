@@ -138,3 +138,26 @@ resource "google_cloudbuild_trigger" "non_master_trigger" {
     null_resource.cloudbuild_terraform_builder,
   ]
 }
+
+resource "google_cloudbuild_trigger" "master_trigger" {
+  provider    = google-beta
+  project     = "ab-bogdana-playground"
+  description = "terragrunt apply on master."
+
+  github {
+    owner = "bogdanalecuappsbroker"
+    name = "solutions-terraform-cloudbuild-gitops"
+    pull_request {
+      branch = "master"
+    }
+  }
+  substitutions = {
+    _TF_SA_EMAIL          = "terraform-sa@ab-bogdana-playground.iam.gserviceaccount.com"
+    _ARTIFACT_BUCKET_NAME = "ab-bogdana-playground-cloudbuild"
+  }
+
+  filename = "cloudbuild-tg-apply.yaml"
+  depends_on = [
+    null_resource.cloudbuild_terraform_builder,
+  ]
+}
