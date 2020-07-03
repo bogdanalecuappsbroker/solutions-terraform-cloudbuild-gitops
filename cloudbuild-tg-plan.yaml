@@ -20,6 +20,13 @@ steps:
   - -c
   - |
     gcloud config set auth/impersonate_service_account ${_TF_SA_EMAIL}
+#list all
+- name: eu.gcr.io/$PROJECT_ID/terraform
+  entrypoint: /bin/bash
+  args:
+  - -c
+  - |
+    ls -lah
 # terragrunt validate
 - name: eu.gcr.io/$PROJECT_ID/terraform
   args:
